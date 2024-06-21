@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+    build: ./
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      MYSQL_HOST: 'db'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+      GOOGLE_CLIENT_ID: '${GOOGLE_CLIENT_ID}'
+      GOOGLE_CLIENT_SECRET: '${GOOGLE_CLIENT_SECRET}'
+      SESSION_SECRET: '${SESSION_SECRET}'
+      PORT: '${PORT}'
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./
+          target: /app
+          action: sync
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - social_media_api:/var/lib/
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+volumes:
+  social_media_api:
