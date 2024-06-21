@@ -14,7 +14,7 @@ export const logout = async (req, res) => {
 export const getFeed = async (req, res) => {
   const userId = req.user.id;
   const [friendsPosts] = await pool.query(
-    `SELECT * FROM posts 
+    `SELECT * FROM Posts 
     WHERE user_id IN (
         SELECT user_id FROM (
             (SELECT user_id2 as user_id FROM Friends WHERE user_id1 = ? AND friendship_status="ACCEPTED") 
