@@ -1,7 +1,3 @@
-
-
-USE social_media_db;
-
 CREATE TABLE Users (
     id VARCHAR(40) PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
