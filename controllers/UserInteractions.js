@@ -32,7 +32,7 @@ export const getFeed = async (req, res) => {
     res.status(200).json(friendsPosts);
   } else {
     const [randomPosts] = await pool.query(
-      `SELECT * FROM posts 
+      `SELECT * FROM Posts 
     WHERE user_id NOT IN (
         SELECT user_id FROM (
             (SELECT user_id2 as user_id FROM Friends WHERE user_id1 = ? AND friendship_status="ACCEPTED") 
