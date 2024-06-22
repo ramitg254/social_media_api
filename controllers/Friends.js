@@ -12,7 +12,7 @@ const ValidUser = async (id) => {
 };
 const ValidRequest = async (user_id, friend_id) => {
   const [rows] = await pool.query(
-    'SELECT * FROM FRIENDS WHERE friendship_status="PENDING" AND user_id1=? AND user_id2=?',
+    'SELECT * FROM Friends WHERE friendship_status="PENDING" AND user_id1=? AND user_id2=?',
     [friend_id, user_id]
   );
   if (rows.length == 0) {
